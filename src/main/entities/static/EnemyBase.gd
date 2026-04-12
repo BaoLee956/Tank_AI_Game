@@ -9,17 +9,21 @@
 extends Area2D
 class_name EnemyBase
 
+var _health: int = 100
+
 
 func _ready() -> void:
 	pass
 
 
-func register_hit(_damage: int) -> void:
-	pass
+func register_hit(damage: int) -> void:
+	if damage <= 0:
+		return
+	_health = maxi(0, _health - damage)
 
 
 func is_destroyed() -> bool:
-	return false
+	return _health <= 0
 
 
 func _on_body_entered(_body: Node2D) -> void:

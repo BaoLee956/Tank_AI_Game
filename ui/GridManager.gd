@@ -14,8 +14,8 @@ func _ready() -> void:
 	pass
 
 
-func world_to_cell(_world_pos: Vector2) -> Vector2i:
-	return Vector2i.ZERO
+func world_to_cell(world_pos: Vector2) -> Vector2i:
+	return local_to_map(to_local(world_pos))
 
 
 func highlight_cell(_cell: Vector2i, _active: bool) -> void:
