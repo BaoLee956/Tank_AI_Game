@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://c0vim6dei20s0"]
+
+[ext_resource type="Script" uid="uid://bu8utiqxjnvol" path="res://src/main/entities/dynamic/Player.gd" id="1_4flbx"]
+[ext_resource type="Texture2D" uid="uid://7wjou2i37wc4" path="res://player_tank.png" id="2_onrkg"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_onrkg"]
+size = Vector2(32, 32)
+
+[node name="Player" type="Node2D" unique_id=954642444]
+script = ExtResource("1_4flbx")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1888899984]
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("2_onrkg")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1487236862]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1401237763]
+shape = SubResource("RectangleShape2D_onrkg")

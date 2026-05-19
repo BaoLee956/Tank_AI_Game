@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://chr2ap6jshmn"]
+
+[ext_resource type="Script" path="res://src/main/entities/static/MineTrap.gd" id="1_mine"]
+[ext_resource type="Texture2D" uid="uid://b45g7fgmt10vw" path="res://mine_trap.png" id="2_tex"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xg0ab"]
+size = Vector2(28, 28)
+
+[node name="MineTrap" type="Area2D"]
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("1_mine")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("2_tex")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_xg0ab")

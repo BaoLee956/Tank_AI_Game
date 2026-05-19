@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://byvihrbugde3l"]
+
+[ext_resource type="Script" uid="uid://ksug3aja8pxf" path="res://generator/generate_assets.gd" id="1_csyv4"]
+
+[node name="GenerateAssets" type="Node2D" unique_id=253998846]
+script = ExtResource("1_csyv4")

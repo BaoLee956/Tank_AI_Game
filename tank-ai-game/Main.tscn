@@ -1,0 +1,302 @@
+[gd_scene format=3 uid="uid://b8mjvr48gkkry"]
+
+[ext_resource type="Script" uid="uid://dkncb7t8r2xwl" path="res://src/main/Main.gd" id="1_272bh"]
+[ext_resource type="Script" uid="uid://by0f72vfq1jxp" path="res://ui/GridManager.gd" id="2_5vw27"]
+[ext_resource type="Script" uid="uid://ccosxn2a4j8ns" path="res://src/main/ai/MapGenerator.gd" id="3_kek77"]
+[ext_resource type="Script" uid="uid://dykydc7xeetgv" path="res://src/main/ai/AStarHunter.gd" id="4_4c57u"]
+[ext_resource type="Script" uid="uid://c18bs38knxp27" path="res://src/main/ai/InferenceSystem.gd" id="5_efxa6"]
+[ext_resource type="PackedScene" uid="uid://c0vim6dei20s0" path="res://Player.tscn" id="5_fpfj3"]
+[ext_resource type="Script" uid="uid://l8j346xdahwf" path="res://src/main/vfx/ParticleManager.gd" id="6_dg77c"]
+[ext_resource type="PackedScene" uid="uid://bpqrcseis6bo6" path="res://Hunter.tscn" id="6_sc1dx"]
+[ext_resource type="PackedScene" uid="uid://b44k2bmga2i7" path="res://Turret.tscn" id="7_kjvhd"]
+[ext_resource type="Script" uid="uid://pkvc44t4fm8v" path="res://src/main/core/PlayerInput.gd" id="7_ycdy4"]
+[ext_resource type="PackedScene" uid="uid://bpt7cs440i4c" path="res://EnemyBase.tscn" id="8_5tuhn"]
+[ext_resource type="PackedScene" uid="uid://chr2ap6jshmn" path="res://MineTrap.tscn" id="9_2gh4u"]
+[ext_resource type="Script" uid="uid://b20chrdy3yruu" path="res://ui/HUDControl.gd" id="9_wkp8b"]
+[ext_resource type="Script" path="res://ui/MapHoverInfo.gd" id="10_20pc6"]
+[ext_resource type="PackedScene" uid="uid://d0bvw34o6jlt7" path="res://EMPTrap.tscn" id="10_devvj"]
+[ext_resource type="TileSet" uid="uid://bm6myvaf700bh" path="res://tileset.tres" id="16_fpfj3"]
+[ext_resource type="Script" path="res://ui/GridOverlay.gd" id="11_gridov"]
+[ext_resource type="Script" path="res://ui/AutoRadar.gd" id="12_autoradar"]
+
+[node name="Main" type="Node"]
+script = ExtResource("1_272bh")
+
+[node name="Background" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.08, 0.1, 0.14, 1)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="PopupLayer" type="CanvasLayer" parent="."]
+layer = 50
+
+[node name="AutoRadar" type="Node" parent="."]
+script = ExtResource("12_autoradar")
+grid_manager_path = NodePath("../GridManager")
+
+[node name="MapGenerator" type="Node" parent="."]
+script = ExtResource("3_kek77")
+grid_manager = NodePath("../GridManager")
+player_scene = ExtResource("5_fpfj3")
+hunter_scene = ExtResource("6_sc1dx")
+turret_scene = ExtResource("7_kjvhd")
+enemy_base_scene = ExtResource("8_5tuhn")
+mine_trap_scene = ExtResource("9_2gh4u")
+emp_trap_scene = ExtResource("10_devvj")
+
+[node name="AStarHunter" type="Node" parent="."]
+script = ExtResource("4_4c57u")
+grid_manager = NodePath("../GridManager")
+
+[node name="InferenceSystem" type="Node" parent="."]
+script = ExtResource("5_efxa6")
+
+[node name="ParticleManager" type="Node2D" parent="."]
+script = ExtResource("6_dg77c")
+
+[node name="PlayerInput" type="Node" parent="."]
+script = ExtResource("7_ycdy4")
+grid_manager = NodePath("../GridManager")
+
+[node name="GridManager" type="Node2D" parent="."]
+script = ExtResource("2_5vw27")
+
+[node name="GroundLayer" type="TileMapLayer" parent="GridManager"]
+tile_set = ExtResource("16_fpfj3")
+
+[node name="ObjectsLayer" type="TileMapLayer" parent="GridManager"]
+tile_set = ExtResource("16_fpfj3")
+
+[node name="HighlightLayer" type="TileMapLayer" parent="GridManager"]
+tile_set = ExtResource("16_fpfj3")
+z_index = 1
+
+[node name="GridOverlay" type="Node2D" parent="GridManager"]
+z_index = 5
+script = ExtResource("11_gridov")
+
+[node name="Entities" type="Node2D" parent="GridManager"]
+z_index = 8
+
+[node name="HUD" type="CanvasLayer" parent="."]
+layer = 10
+
+[node name="MapHoverInfo" type="Control" parent="HUD"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("10_20pc6")
+grid_manager_path = NodePath("../../GridManager")
+
+[node name="Panel" type="PanelContainer" parent="HUD/MapHoverInfo"]
+visible = false
+layout_mode = 0
+offset_right = 280.0
+offset_bottom = 100.0
+
+[node name="VBox" type="VBoxContainer" parent="HUD/MapHoverInfo/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="TitleLabel" type="Label" parent="HUD/MapHoverInfo/Panel/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+text = "Thông tin"
+
+[node name="BodyLabel" type="Label" parent="HUD/MapHoverInfo/Panel/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+autowrap_mode = 3
+custom_minimum_size = Vector2(260, 0)
+
+[node name="HUDControl" type="Control" parent="HUD"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("9_wkp8b")
+
+[node name="TopBar" type="PanelContainer" parent="HUD/HUDControl"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 84.0
+grow_horizontal = 2
+
+[node name="Margin" type="HBoxContainer" parent="HUD/HUDControl/TopBar"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="TurnLabel" type="Label" parent="HUD/HUDControl/TopBar/Margin"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "Lượt 1"
+
+[node name="PhaseLabel" type="Label" parent="HUD/HUDControl/TopBar/Margin"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.85, 1, 1)
+theme_override_font_sizes/font_size = 20
+text = "Lượt người chơi"
+
+[node name="HpLabel" type="Label" parent="HUD/HUDControl/TopBar/Margin"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "HP: 100/100"
+
+[node name="BulletBar" type="HBoxContainer" parent="HUD/HUDControl/TopBar/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="BulletIcon1" type="Label" parent="HUD/HUDControl/TopBar/Margin/BulletBar"]
+layout_mode = 2
+text = "●"
+
+[node name="BulletIcon2" type="Label" parent="HUD/HUDControl/TopBar/Margin/BulletBar"]
+layout_mode = 2
+text = "●"
+
+[node name="BulletIcon3" type="Label" parent="HUD/HUDControl/TopBar/Margin/BulletBar"]
+layout_mode = 2
+text = "●"
+
+[node name="BottomBar" type="PanelContainer" parent="HUD/HUDControl"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -68.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Margin" type="MarginContainer" parent="HUD/HUDControl/BottomBar"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 8
+
+[node name="HintLabel" type="Label" parent="HUD/HUDControl/BottomBar/Margin"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.8, 0.9, 1)
+theme_override_font_sizes/font_size = 16
+text = "Trái: di chuyển | Phải: bắn vào ô kề cạnh"
+
+[node name="RadarPanel" type="PanelContainer" parent="HUD/HUDControl"]
+visible = false
+layout_mode = 0
+offset_left = 16.0
+offset_top = 96.0
+offset_right = 360.0
+offset_bottom = 200.0
+
+[node name="RadarLabel" type="Label" parent="HUD/HUDControl/RadarPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+autowrap_mode = 3
+
+[node name="DefeatFlash" type="ColorRect" parent="HUD/HUDControl"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.85, 0.08, 0.05, 1)
+
+[node name="TutorialPopup" type="PanelContainer" parent="HUD/HUDControl"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -320.0
+offset_top = -240.0
+offset_right = 320.0
+offset_bottom = 240.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Margin" type="MarginContainer" parent="HUD/HUDControl/TutorialPopup"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBox" type="VBoxContainer" parent="HUD/HUDControl/TutorialPopup/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="TutorialTitle" type="Label" parent="HUD/HUDControl/TutorialPopup/Margin/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "Hướng dẫn — CyberTank"
+horizontal_alignment = 1
+
+[node name="TutorialBody" type="Label" parent="HUD/HUDControl/TutorialPopup/Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 14
+text = "Xem HUDControl.gd TUTORIAL_TEXT"
+autowrap_mode = 3
+
+[node name="StartButton" type="Button" parent="HUD/HUDControl/TutorialPopup/Margin/VBox"]
+layout_mode = 2
+text = "Bắt đầu chơi"
+
+[node name="ResultPopup" type="PanelContainer" parent="HUD/HUDControl"]
+visible = false
+z_index = 200
+mouse_filter = 0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -280.0
+offset_top = -160.0
+offset_right = 280.0
+offset_bottom = 160.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Margin" type="VBoxContainer" parent="HUD/HUDControl/ResultPopup"]
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="ResultLabel" type="Label" parent="HUD/HUDControl/ResultPopup/Margin"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "Kết quả"
+horizontal_alignment = 1
+
+[node name="ResultDetail" type="Label" parent="HUD/HUDControl/ResultPopup/Margin"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+autowrap_mode = 3
+horizontal_alignment = 1
+
+[node name="RestartButton" type="Button" parent="HUD/HUDControl/ResultPopup/Margin"]
+layout_mode = 2
+text = "Chơi lại"

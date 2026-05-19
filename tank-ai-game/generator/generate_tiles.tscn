@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bn6jkyh26bw8w"]
+
+[ext_resource type="Script" uid="uid://drf8kwm5qe6ax" path="res://generator/generate_tiles.gd" id="1_gfbn4"]
+
+[node name="GenerateTiles" type="Node" unique_id=1990005820]
+script = ExtResource("1_gfbn4")

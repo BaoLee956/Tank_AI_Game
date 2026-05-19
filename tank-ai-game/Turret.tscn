@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://b44k2bmga2i7"]
+
+[ext_resource type="Script" uid="uid://h07irq88fcj0" path="res://src/main/entities/dynamic/Turret.gd" id="1_tjdg3"]
+[ext_resource type="Texture2D" uid="uid://bbh7yrvmf4k73" path="res://turret.png" id="2_c5apd"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_coqkk"]
+size = Vector2(32, 32)
+
+[node name="Turret" type="Node2D" unique_id=1375127575]
+script = ExtResource("1_tjdg3")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=202133698]
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("2_c5apd")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1164379489]
+shape = SubResource("RectangleShape2D_coqkk")
