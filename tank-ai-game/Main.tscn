@@ -13,16 +13,16 @@
 [ext_resource type="PackedScene" uid="uid://bpt7cs440i4c" path="res://EnemyBase.tscn" id="8_5tuhn"]
 [ext_resource type="PackedScene" uid="uid://chr2ap6jshmn" path="res://MineTrap.tscn" id="9_2gh4u"]
 [ext_resource type="Script" uid="uid://b20chrdy3yruu" path="res://ui/HUDControl.gd" id="9_wkp8b"]
-[ext_resource type="Script" path="res://ui/MapHoverInfo.gd" id="10_20pc6"]
+[ext_resource type="Script" uid="uid://bdtqvqt1b87xl" path="res://ui/MapHoverInfo.gd" id="10_20pc6"]
 [ext_resource type="PackedScene" uid="uid://d0bvw34o6jlt7" path="res://EMPTrap.tscn" id="10_devvj"]
+[ext_resource type="Script" uid="uid://dkqmiqd6l751v" path="res://ui/GridOverlay.gd" id="11_gridov"]
+[ext_resource type="Script" uid="uid://d1gqwmca35ra2" path="res://ui/AutoRadar.gd" id="12_autoradar"]
 [ext_resource type="TileSet" uid="uid://bm6myvaf700bh" path="res://tileset.tres" id="16_fpfj3"]
-[ext_resource type="Script" path="res://ui/GridOverlay.gd" id="11_gridov"]
-[ext_resource type="Script" path="res://ui/AutoRadar.gd" id="12_autoradar"]
 
-[node name="Main" type="Node"]
+[node name="Main" type="Node" unique_id=1278328373]
 script = ExtResource("1_272bh")
 
-[node name="Background" type="ColorRect" parent="."]
+[node name="Background" type="ColorRect" parent="." unique_id=2014668571]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -31,16 +31,16 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0.08, 0.1, 0.14, 1)
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1973690651]
 
-[node name="PopupLayer" type="CanvasLayer" parent="."]
+[node name="PopupLayer" type="CanvasLayer" parent="." unique_id=1761299821]
 layer = 50
 
-[node name="AutoRadar" type="Node" parent="."]
+[node name="AutoRadar" type="Node" parent="." unique_id=1749888080]
 script = ExtResource("12_autoradar")
 grid_manager_path = NodePath("../GridManager")
 
-[node name="MapGenerator" type="Node" parent="."]
+[node name="MapGenerator" type="Node" parent="." unique_id=1074994453]
 script = ExtResource("3_kek77")
 grid_manager = NodePath("../GridManager")
 player_scene = ExtResource("5_fpfj3")
@@ -50,44 +50,44 @@ enemy_base_scene = ExtResource("8_5tuhn")
 mine_trap_scene = ExtResource("9_2gh4u")
 emp_trap_scene = ExtResource("10_devvj")
 
-[node name="AStarHunter" type="Node" parent="."]
+[node name="AStarHunter" type="Node" parent="." unique_id=702580272]
 script = ExtResource("4_4c57u")
 grid_manager = NodePath("../GridManager")
 
-[node name="InferenceSystem" type="Node" parent="."]
+[node name="InferenceSystem" type="Node" parent="." unique_id=2089797345]
 script = ExtResource("5_efxa6")
 
-[node name="ParticleManager" type="Node2D" parent="."]
+[node name="ParticleManager" type="Node2D" parent="." unique_id=265430648]
 script = ExtResource("6_dg77c")
 
-[node name="PlayerInput" type="Node" parent="."]
+[node name="PlayerInput" type="Node" parent="." unique_id=459859354]
 script = ExtResource("7_ycdy4")
 grid_manager = NodePath("../GridManager")
 
-[node name="GridManager" type="Node2D" parent="."]
+[node name="GridManager" type="Node2D" parent="." unique_id=1523892686]
 script = ExtResource("2_5vw27")
 
-[node name="GroundLayer" type="TileMapLayer" parent="GridManager"]
+[node name="GroundLayer" type="TileMapLayer" parent="GridManager" unique_id=357495624]
 tile_set = ExtResource("16_fpfj3")
 
-[node name="ObjectsLayer" type="TileMapLayer" parent="GridManager"]
+[node name="ObjectsLayer" type="TileMapLayer" parent="GridManager" unique_id=1232064664]
 tile_set = ExtResource("16_fpfj3")
 
-[node name="HighlightLayer" type="TileMapLayer" parent="GridManager"]
-tile_set = ExtResource("16_fpfj3")
+[node name="HighlightLayer" type="TileMapLayer" parent="GridManager" unique_id=2144422450]
 z_index = 1
+tile_set = ExtResource("16_fpfj3")
 
-[node name="GridOverlay" type="Node2D" parent="GridManager"]
+[node name="GridOverlay" type="Node2D" parent="GridManager" unique_id=1616059884]
 z_index = 5
 script = ExtResource("11_gridov")
 
-[node name="Entities" type="Node2D" parent="GridManager"]
+[node name="Entities" type="Node2D" parent="GridManager" unique_id=2006539292]
 z_index = 8
 
-[node name="HUD" type="CanvasLayer" parent="."]
+[node name="HUD" type="CanvasLayer" parent="." unique_id=1798841234]
 layer = 10
 
-[node name="MapHoverInfo" type="Control" parent="HUD"]
+[node name="MapHoverInfo" type="Control" parent="HUD" unique_id=1379630798]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -96,30 +96,29 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("10_20pc6")
-grid_manager_path = NodePath("../../GridManager")
 
-[node name="Panel" type="PanelContainer" parent="HUD/MapHoverInfo"]
+[node name="Panel" type="PanelContainer" parent="HUD/MapHoverInfo" unique_id=141109333]
 visible = false
 layout_mode = 0
 offset_right = 280.0
 offset_bottom = 100.0
 
-[node name="VBox" type="VBoxContainer" parent="HUD/MapHoverInfo/Panel"]
+[node name="VBox" type="VBoxContainer" parent="HUD/MapHoverInfo/Panel" unique_id=73406295]
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="TitleLabel" type="Label" parent="HUD/MapHoverInfo/Panel/VBox"]
+[node name="TitleLabel" type="Label" parent="HUD/MapHoverInfo/Panel/VBox" unique_id=1456185062]
 layout_mode = 2
 theme_override_font_sizes/font_size = 15
 text = "Thông tin"
 
-[node name="BodyLabel" type="Label" parent="HUD/MapHoverInfo/Panel/VBox"]
+[node name="BodyLabel" type="Label" parent="HUD/MapHoverInfo/Panel/VBox" unique_id=1665805346]
+custom_minimum_size = Vector2(260, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 13
 autowrap_mode = 3
-custom_minimum_size = Vector2(260, 0)
 
-[node name="HUDControl" type="Control" parent="HUD"]
+[node name="HUDControl" type="Control" parent="HUD" unique_id=1372724086]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -129,50 +128,50 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("9_wkp8b")
 
-[node name="TopBar" type="PanelContainer" parent="HUD/HUDControl"]
+[node name="TopBar" type="PanelContainer" parent="HUD/HUDControl" unique_id=846922530]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 84.0
 grow_horizontal = 2
 
-[node name="Margin" type="HBoxContainer" parent="HUD/HUDControl/TopBar"]
+[node name="Margin" type="HBoxContainer" parent="HUD/HUDControl/TopBar" unique_id=1958649051]
 layout_mode = 2
 theme_override_constants/separation = 24
 
-[node name="TurnLabel" type="Label" parent="HUD/HUDControl/TopBar/Margin"]
+[node name="TurnLabel" type="Label" parent="HUD/HUDControl/TopBar/Margin" unique_id=395141268]
 layout_mode = 2
 theme_override_font_sizes/font_size = 22
 text = "Lượt 1"
 
-[node name="PhaseLabel" type="Label" parent="HUD/HUDControl/TopBar/Margin"]
+[node name="PhaseLabel" type="Label" parent="HUD/HUDControl/TopBar/Margin" unique_id=1958324094]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.4, 0.85, 1, 1)
 theme_override_font_sizes/font_size = 20
 text = "Lượt người chơi"
 
-[node name="HpLabel" type="Label" parent="HUD/HUDControl/TopBar/Margin"]
+[node name="HpLabel" type="Label" parent="HUD/HUDControl/TopBar/Margin" unique_id=818541401]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "HP: 100/100"
 
-[node name="BulletBar" type="HBoxContainer" parent="HUD/HUDControl/TopBar/Margin"]
+[node name="BulletBar" type="HBoxContainer" parent="HUD/HUDControl/TopBar/Margin" unique_id=898051177]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="BulletIcon1" type="Label" parent="HUD/HUDControl/TopBar/Margin/BulletBar"]
+[node name="BulletIcon1" type="Label" parent="HUD/HUDControl/TopBar/Margin/BulletBar" unique_id=1993808129]
 layout_mode = 2
 text = "●"
 
-[node name="BulletIcon2" type="Label" parent="HUD/HUDControl/TopBar/Margin/BulletBar"]
+[node name="BulletIcon2" type="Label" parent="HUD/HUDControl/TopBar/Margin/BulletBar" unique_id=1561335809]
 layout_mode = 2
 text = "●"
 
-[node name="BulletIcon3" type="Label" parent="HUD/HUDControl/TopBar/Margin/BulletBar"]
+[node name="BulletIcon3" type="Label" parent="HUD/HUDControl/TopBar/Margin/BulletBar" unique_id=803631751]
 layout_mode = 2
 text = "●"
 
-[node name="BottomBar" type="PanelContainer" parent="HUD/HUDControl"]
+[node name="BottomBar" type="PanelContainer" parent="HUD/HUDControl" unique_id=1856219624]
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -182,20 +181,20 @@ offset_top = -68.0
 grow_horizontal = 2
 grow_vertical = 0
 
-[node name="Margin" type="MarginContainer" parent="HUD/HUDControl/BottomBar"]
+[node name="Margin" type="MarginContainer" parent="HUD/HUDControl/BottomBar" unique_id=1512254153]
 layout_mode = 2
 theme_override_constants/margin_left = 12
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 12
 theme_override_constants/margin_bottom = 8
 
-[node name="HintLabel" type="Label" parent="HUD/HUDControl/BottomBar/Margin"]
+[node name="HintLabel" type="Label" parent="HUD/HUDControl/BottomBar/Margin" unique_id=2098301000]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.75, 0.8, 0.9, 1)
 theme_override_font_sizes/font_size = 16
 text = "Trái: di chuyển | Phải: bắn vào ô kề cạnh"
 
-[node name="RadarPanel" type="PanelContainer" parent="HUD/HUDControl"]
+[node name="RadarPanel" type="PanelContainer" parent="HUD/HUDControl" unique_id=700599082]
 visible = false
 layout_mode = 0
 offset_left = 16.0
@@ -203,15 +202,11 @@ offset_top = 96.0
 offset_right = 360.0
 offset_bottom = 200.0
 
-[node name="RadarLabel" type="Label" parent="HUD/HUDControl/RadarPanel"]
+[node name="RadarLabel" type="Label" parent="HUD/HUDControl/RadarPanel" unique_id=557291178]
 layout_mode = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 8
 autowrap_mode = 3
 
-[node name="DefeatFlash" type="ColorRect" parent="HUD/HUDControl"]
+[node name="DefeatFlash" type="ColorRect" parent="HUD/HUDControl" unique_id=1051646736]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -221,7 +216,7 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0.85, 0.08, 0.05, 1)
 
-[node name="TutorialPopup" type="PanelContainer" parent="HUD/HUDControl"]
+[node name="TutorialPopup" type="PanelContainer" parent="HUD/HUDControl" unique_id=1635817021]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -235,38 +230,37 @@ offset_bottom = 240.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Margin" type="MarginContainer" parent="HUD/HUDControl/TutorialPopup"]
+[node name="Margin" type="MarginContainer" parent="HUD/HUDControl/TutorialPopup" unique_id=204533194]
 layout_mode = 2
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="VBox" type="VBoxContainer" parent="HUD/HUDControl/TutorialPopup/Margin"]
+[node name="VBox" type="VBoxContainer" parent="HUD/HUDControl/TutorialPopup/Margin" unique_id=237727324]
 layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="TutorialTitle" type="Label" parent="HUD/HUDControl/TutorialPopup/Margin/VBox"]
+[node name="TutorialTitle" type="Label" parent="HUD/HUDControl/TutorialPopup/Margin/VBox" unique_id=2110329571]
 layout_mode = 2
 theme_override_font_sizes/font_size = 22
 text = "Hướng dẫn — CyberTank"
 horizontal_alignment = 1
 
-[node name="TutorialBody" type="Label" parent="HUD/HUDControl/TutorialPopup/Margin/VBox"]
+[node name="TutorialBody" type="Label" parent="HUD/HUDControl/TutorialPopup/Margin/VBox" unique_id=2081583194]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_font_sizes/font_size = 14
 text = "Xem HUDControl.gd TUTORIAL_TEXT"
 autowrap_mode = 3
 
-[node name="StartButton" type="Button" parent="HUD/HUDControl/TutorialPopup/Margin/VBox"]
+[node name="StartButton" type="Button" parent="HUD/HUDControl/TutorialPopup/Margin/VBox" unique_id=1756443374]
 layout_mode = 2
 text = "Bắt đầu chơi"
 
-[node name="ResultPopup" type="PanelContainer" parent="HUD/HUDControl"]
+[node name="ResultPopup" type="PanelContainer" parent="HUD/HUDControl" unique_id=1738405078]
 visible = false
 z_index = 200
-mouse_filter = 0
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -280,23 +274,23 @@ offset_bottom = 160.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Margin" type="VBoxContainer" parent="HUD/HUDControl/ResultPopup"]
+[node name="Margin" type="VBoxContainer" parent="HUD/HUDControl/ResultPopup" unique_id=1914750246]
 layout_mode = 2
 theme_override_constants/separation = 12
 alignment = 1
 
-[node name="ResultLabel" type="Label" parent="HUD/HUDControl/ResultPopup/Margin"]
+[node name="ResultLabel" type="Label" parent="HUD/HUDControl/ResultPopup/Margin" unique_id=1765872261]
 layout_mode = 2
 theme_override_font_sizes/font_size = 26
 text = "Kết quả"
 horizontal_alignment = 1
 
-[node name="ResultDetail" type="Label" parent="HUD/HUDControl/ResultPopup/Margin"]
+[node name="ResultDetail" type="Label" parent="HUD/HUDControl/ResultPopup/Margin" unique_id=117267952]
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
-autowrap_mode = 3
 horizontal_alignment = 1
+autowrap_mode = 3
 
-[node name="RestartButton" type="Button" parent="HUD/HUDControl/ResultPopup/Margin"]
+[node name="RestartButton" type="Button" parent="HUD/HUDControl/ResultPopup/Margin" unique_id=1900159403]
 layout_mode = 2
 text = "Chơi lại"

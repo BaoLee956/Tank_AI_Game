@@ -15,6 +15,12 @@ var _cell: Vector2i = Vector2i(0, 0)
 var _cell_from_spawn: bool = false
 var _is_animating: bool = false
 
+@export var bullet_scene: PackedScene
+
+# Thêm biến đếm số lượt bị choáng ở trên cùng
+var stun_turns = 0
+
+
 @onready var anim_player: AnimationPlayer = $AnimationPlayer
 @onready var sprite: Sprite2D = $Sprite2D
 
@@ -37,8 +43,16 @@ func is_animating() -> bool:
 
 
 func apply_move_intent(target_cell: Vector2i) -> bool:
-	if _is_animating or GameState.is_stunned(self):
+	if _is_animating:
 		return false
+	# --- THÊM ĐOẠN NÀY ĐỂ BỎ LƯỢT KHI BỊ CHOÁNG ---
+	if GameState.is_stunned(self):
+		print("Đang bị CHOÁNG! Tự động bỏ qua lượt này!")
+		# Ép hệ thống chuyển lượt (Tùy theo tên hàm trong TurnManager của nhóm bạn)
+		if TurnManager.has_method("end_player_turn"):
+			TurnManager.end_player_turn()
+		return false
+
 	if not _is_cell_reachable(target_cell):
 		return false
 
@@ -92,11 +106,12 @@ func _check_tile_after_move() -> void:
 			var trap_cell := grid.local_center_to_cell((trap as Node2D).position)
 			if trap_cell == _cell:
 				(trap as EMPTrap).activate_pulse()
+				GameState.apply_stun(self, 2)
 				return
 
 
 func take_damage(amount: int, death_reason: String = "") -> void:
-	if amount <= 0:
+	if amount <= 0: 
 		return
 	_hp = maxi(0, _hp - amount)
 	emit_signal("health_changed", _hp, MAX_HP)
@@ -123,6 +138,40 @@ func shoot_at(target_cell: Vector2i) -> bool:
 	if dist == 2 and not _has_clear_shot(target_cell):
 		return false
 
+	# =======================================================
+	# FIX 1: ĐOẠN SPAWN ĐẠN CHỐNG VĂNG GAME
+	# =======================================================
+	if bullet_scene:
+		print("-> ĐANG ĐẺ ĐẠN RA MÀN HÌNH NÈ!") # THÊM DÒNG NÀY
+		var b = bullet_scene.instantiate()
+		
+		# KIỂM TRA TRƯỚC KHI GẮN ĐỂ KHÔNG BỊ VĂNG GAME
+		if b == null:
+			push_error("LỖI: Không thể tạo đạn từ bullet_scene!")
+		elif not "shooter" in b:
+			push_error("LỖI: Scene Bullet.tscn CHƯA ĐƯỢC GẮN script Bullet.gd (hoặc file Bullet.gd đang bị lỗi)!")
+		else:
+			b.shooter = self 
+			get_parent().add_child(b) 
+			# b.position = position 
+			b.global_position = global_position
+			
+			var grid = _get_grid()
+			if grid:
+				var target_pos = grid.cell_to_local_center(target_cell)
+				var direction = (target_pos - position).normalized()
+				
+				# --- THÊM 2 DÒNG NÀY ĐỂ ĐO KHOẢNG CÁCH ---
+				var distance = position.distance_to(target_pos)
+				b.max_range = distance 
+				# -----------------------------------------
+				
+				if b.has_method("launch"):
+					b.launch(direction * 400)
+	else: 
+			print("-> LỖI: Ô BULLET SCENE TRONG INSPECTOR ĐANG BỊ TRỐNG KHÔNG!") # THÊM DÒNG NÀY
+	# =======================================================
+
 	var target: Node2D = _get_entity_at(target_cell)
 	if dist == 2:
 		if is_instance_valid(target) and target is Hunter:
@@ -138,9 +187,13 @@ func shoot_at(target_cell: Vector2i) -> bool:
 		return true
 
 	if target is MineTrap:
+		# FIX 2: Xóa mìn khỏi danh sách hệ thống trước khi hủy để tránh văng game
+		GameState.traps.erase(target) 
 		target.queue_free()
 		GameState.consume_bullet()
 	elif target is EMPTrap:
+		# FIX 2: Áp dụng tương tự cho bẫy EMP
+		GameState.traps.erase(target) 
 		target.queue_free()
 		GameState.consume_bullet()
 	elif target is Hunter:
@@ -157,6 +210,7 @@ func shoot_at(target_cell: Vector2i) -> bool:
 		return false
 	else:
 		return false
+
 	_play_shoot_feedback(target_cell)
 	return true
 

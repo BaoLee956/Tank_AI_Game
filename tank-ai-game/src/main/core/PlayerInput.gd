@@ -137,7 +137,13 @@ func _world_to_cell(world_pos: Vector2) -> Vector2i:
 
 
 func _on_player_turn_started() -> void:
-	set_action_allowed(true)
+	# Kiểm tra nếu Player đang bị choáng trong sổ GameState
+	if GameState.player_ref != null and GameState.is_stunned(GameState.player_ref):
+		print("PlayerInput: Đang bị choáng! Tự động bỏ qua lượt.")
+		set_action_allowed(false) # Khóa chuột/phím
+		TurnManager.end_player_turn() # Đá lượt sang cho phe địch
+	else:
+		set_action_allowed(true) # Nếu không choáng thì mở khóa bình thường
 
 
 func _on_player_turn_ended() -> void:
