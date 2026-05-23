@@ -151,7 +151,11 @@ func _check_trap_on_cell() -> void:
 		if trap is EMPTrap:
 			var trap_cell := grid.local_center_to_cell((trap as Node2D).position)
 			if trap_cell == _cell:
-				GameState.apply_stun(self, GameState.EMP_STUN_TURNS)
+				# Thêm dòng này để kích hoạt xẹt điện VFX của bẫy
+				(trap as EMPTrap).activate_pulse() 
+				
+				# Phải CỘNG THÊM 1 VÀO LƯỢT CHOÁNG (giống như Player) để bù hao cho Phase Resolution
+				GameState.apply_stun(self, GameState.EMP_STUN_TURNS + 1)
 				return
 
 

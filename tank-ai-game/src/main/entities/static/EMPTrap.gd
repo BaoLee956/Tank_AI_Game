@@ -26,7 +26,8 @@ var _particle_mgr: ParticleManager = null
 
 
 func set_cell(cell: Vector2i) -> void:
-	position = Vector2.ZERO
+	# Tính toán vị trí pixel tương tự như Player
+	position = Vector2(cell.x * 32 + 16, cell.y * 32 + 16)
 
 
 func _hide_visual() -> void:
